@@ -1,6 +1,14 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
 
+module.exports = defineConfig({
+  testDir: './tests',
+  use: {
+    baseURL: 'https://ltu-i0015n-2024-web.azurewebsites.net' ← Your site URL
+  }
+});
+
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
