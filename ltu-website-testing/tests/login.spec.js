@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Inloggning med korrekta uppgifter', async ({ page }) => {
   await page.goto('https://ltu-i0015n-2024-web.azurewebsites.net/');
-  await page.click('text=Logga in');
+  await page.getByRole('button', { name: 'Login' }).click();
   await page.fill('input[name="username"]', 'stina');
   await page.fill('input[name="password"]', 'fåGelskådning');
   await page.click('button[type="submit"]');
@@ -11,7 +11,7 @@ test('Inloggning med korrekta uppgifter', async ({ page }) => {
 
 test('Inloggning med felaktiga uppgifter', async ({ page }) => {
   await page.goto('https://ltu-i0015n-2024-web.azurewebsites.net/');
-  await page.click('text=Logga in');
+  await page.getByRole('button', { name: 'Login' }).click();
   await page.fill('input[name="username"]', 'stina');
   await page.fill('input[name="password"]', 'felLösen');
   await page.click('button[type="submit"]');
