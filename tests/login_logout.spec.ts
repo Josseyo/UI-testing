@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
 // Helper function for login
-async function login(page, username = 'stina', password = 'fåGelskådning') {
+async function login(page: Page, username = 'stina', password = 'fåGelskådning') {
   await page.goto('https://ltu-i0015n-2024-web.azurewebsites.net/');
   await page.getByRole('link', { name: 'Login' }).click();
   await page.getByRole('textbox', { name: 'Username:' }).fill(username);
