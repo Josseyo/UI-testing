@@ -39,8 +39,9 @@ const keywords = [
   'Cat',
 ];
 
-for (const keyword of keywords) {
-  test(`Sökning visar bilder med giltiga nyckelord: "${keyword}"`, async ({ page }) => {
+for (let i = 0; i < keywords.length; i++) {
+  const keyword = keywords[i];
+  test(`[TC${i + 1}] Sökning visar bilder med giltiga nyckelord: "${keyword}"`, async ({ page }) => {
     await login(page);
     await page.getByRole('textbox', { name: /search terms/i }).fill(keyword);
     await page.getByRole('button', { name: /search/i }).click();
@@ -49,34 +50,35 @@ for (const keyword of keywords) {
   });
 }
 
-test('No images could be found visas med ogiltigt nyckelord', async ({ page }) => {
+
+test('[TC12] No images could be found visas med ogiltigt nyckelord', async ({ page }) => {
   await login(page);
   await page.getByRole('textbox', { name: /search terms/i }).fill('ogiltigt sökord');
   await page.getByRole('button', { name: /search/i }).click();
   await expect(page.getByText(/no images could be found/i)).toBeVisible();
 });
 
-test('Sökord saknas', async ({ page }) => {
+test('[TC13] Sökord saknas', async ({ page }) => {
   await login(page);
   await page.getByRole('button', { name: /search/i }).click();
   // Optionally, check for a validation message
 });
 
-test('Responsivitet - Desktop', async ({ page }) => {
+test('[TC14] Responsivitet - Desktop', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await login(page);
   expect(await page.viewportSize()).toEqual({ width: 1280, height: 800 });
   await expect(page.getByRole('textbox', { name: /search terms/i })).toBeVisible();
 });
 
-test('Responsivitet - Tablet', async ({ page }) => {
+test('[TC15] Responsivitet - Tablet', async ({ page }) => {
   await page.setViewportSize({ width: 768, height: 1024 });
   await login(page);
   expect(await page.viewportSize()).toEqual({ width: 768, height: 1024 });
   await expect(page.getByRole('textbox', { name: /search terms/i })).toBeVisible();
 });
 
-test('Responsivitet - Mobil', async ({ page }) => {
+test('[TC16] Responsivitet - Mobil', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await login(page);
   expect(await page.viewportSize()).toEqual({ width: 375, height: 667 });
