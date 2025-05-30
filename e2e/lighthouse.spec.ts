@@ -1,5 +1,5 @@
 // lighthouse.utils.ts
-import lighthouse from 'playwright-lighthouse';
+import { playAudit } from 'playwright-lighthouse';
 import { Page } from '@playwright/test';
 // ...rest of your code...
 
@@ -15,11 +15,17 @@ type LighthouseOpts = {
 
 export async function runLighthouseAudit(
   page: Page,
-  thresholds: Thresholds = {},
-  opts: LighthouseOpts = {}
+  thresholds: Record<string, number> = {},
+  opts: Record<string, unknown> = {}
 ) {
-  return lighthouse(page, {
+  return playAudit({
+    page,
+    port: 9222, // Standardport för Playwrights Chrome-debugger
     thresholds: { performance: 80, accessibility: 90, ...thresholds },
-    reports: { formats: { html: true, json: true }, directory: './lighthouse-reports', ...opts }
+    reports: {
+      formats: { html: true, json: true },
+      directory: './lighthouse-reports',
+      ...opts
+    }
   });
 }

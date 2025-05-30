@@ -1,12 +1,6 @@
-// This file contains Playwright tests for login/logout functionality and responsiveness of the web application.
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
-import { runLighthouseAudit } from './lighthouse.utils';
-
-test('[TC30] Lighthouse audit på startsidan', async ({ page }) => {
-  await page.goto('https://ltu-i0015n-2024-web.azurewebsites.net/');
-  await runLighthouseAudit(page);
-});
+import { runLighthouseAudit } from './lighthouse.spec';
 
 // Helper function for login
 async function login(page: Page, username = 'stina', password = 'fåGelskådning') {
@@ -17,6 +11,9 @@ async function login(page: Page, username = 'stina', password = 'fåGelskådning
   await page.getByRole('button', { name: 'Login' }).click();
 }
 
+// ======================
+// LOGIN/LOGOUT TESTS
+// ======================
 test('[TC17] Lyckad inloggning med korrekta uppgifter', async ({ page }) => {
   await login(page);
   await expect(page.getByRole('link', { name: 'Logout' })).toBeVisible();
@@ -39,7 +36,9 @@ test('[TC20] Logout', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
 });
 
-// Responsivitetstester
+// ======================
+// RESPONSIVENESS TESTS
+// ======================
 test('[TC21] Responsivitet - Desktop', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await login(page);
@@ -59,4 +58,13 @@ test('[TC23] Responsivitet - Mobil', async ({ page }) => {
   await login(page);
   expect(await page.viewportSize()).toEqual({ width: 375, height: 667 });
   await expect(page.getByRole('link', { name: 'Logout' })).toBeVisible();
+});
+
+// ======================
+// PERFORMANCE AUDITS
+// ======================
+test('[TC30] Lighthouse audit på startsidan', async ({ page }) => {
+  test.setTimeout(120000); // Öka timeout för Lighthouse audit
+  await page.goto('https://ltu-i0015n-2024-web.azurewebsites.net/');
+  await runLighthouseAudit(page);
 });

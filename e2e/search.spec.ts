@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
-
 import type { Page } from '@playwright/test';
+import { runLighthouseAudit } from './lighthouse.spec';
+
+test('[TC30] Lighthouse audit på startsidan', async ({ page }) => {
+  await page.goto('https://ltu-i0015n-2024-web.azurewebsites.net/');
+  await runLighthouseAudit(page);
+});
 
 async function login(page: Page) {
   await page.goto('https://ltu-i0015n-2024-web.azurewebsites.net/');
